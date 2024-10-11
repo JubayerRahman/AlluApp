@@ -4,14 +4,19 @@ import FontAwesome5 from '@expo/vector-icons/FontAwesome5';
 import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import PagerView from 'react-native-pager-view'
 import { Audio } from 'expo-av';
+import { useNavigation } from 'expo-router';
+import FontAwesome from '@expo/vector-icons/FontAwesome';
 
 const Home = () => {
+
+    const navigate = useNavigation()
 
     const ButtonSound = async()=>{
         const {sound} = await Audio.Sound.createAsync(
             require('../assets/audioSound.wav')
         )
         await sound.playAsync()
+        navigate.navigate('GameScreen')
     }
   return (
     <View>
@@ -35,7 +40,10 @@ const Home = () => {
             </PagerView>
             <FontAwesome5 name="greater-than" size={50} color="#a9ff99" />
        </View>
-       <TouchableOpacity onPress={ButtonSound} ><Text style={styles.button}>Let's Play</Text></TouchableOpacity>
+       <View style={styles.buttonBox}>
+        <TouchableOpacity onPress={ButtonSound} ><Text style={styles.button}>Let's Play </Text></TouchableOpacity>
+        <TouchableOpacity onPress={()=>  navigate.navigate('Dev')} ><Text style={styles.button}><FontAwesome name="user-secret" size={30} color="black" /></Text></TouchableOpacity>
+       </View>
   </View>
     </View>
   )
@@ -98,6 +106,10 @@ const styles = StyleSheet.create({
         marginTop: 200,
         // marginBottom: 75
     },
+    buttonBox:{
+        flexDirection:"row",
+        gap: 10
+    },
     button:{
         fontFamily:"lotoBlack",
         backgroundColor:"#a9ff99",
@@ -107,7 +119,10 @@ const styles = StyleSheet.create({
         borderRadius:10,
         borderWidth: 2,
         borderRightWidth: 4,
-        borderBottomWidth: 4
+        borderBottomWidth: 4,
+        alignItems:"center",
+        textAlign:"center",
+        justifyContent:"center"
     }
   });
 
